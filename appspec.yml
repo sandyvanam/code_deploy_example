@@ -1,22 +1,24 @@
 version: 0.0
 os: linux
 files:
-   - source: /
-     destination: /var/www/html
+  - source: /
+    destination: /var/www/html/awsbitbucketcdci
 permissions:
-   - object: /var/www/html
+   - object: /var/www/html/awsbitbucketcdci
      pattern: "**"
-     owner: apache
-     group: apache
-     mode: 755
+     mode: 775
+     owner: ubuntu	
+     group: ubuntu
      type:
+       - directory
        - file
 hooks:
-   BeforeInstall:
-    - location: scripts/installapache.sh
+  BeforeInstall:
+    - location: scripts/backup.sh
+      timeout: 300
       runas: root
-    - location: scripts/startapache.sh
+  ApplicationStop:
+    - location: scripts/commands.sh
+      timeout: 300
       runas: root
-   AfterInstall:
-    - location: scripts/restartapache.sh
-      runas: root
+
